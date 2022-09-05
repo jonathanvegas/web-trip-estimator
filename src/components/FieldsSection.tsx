@@ -21,8 +21,16 @@ function FieldsSection() {
   const [status, setStatus] = useState('');
   const [date, setDate] = useState(moment().format('YYYY-MM-DD').toString());
   const [rate, setRate] = useState(0.6); //bring rate value from user profile
-
   const [form, setForm] = useState({});
+  const [zipCodeData, setZipCodeData] = useState({});
+
+  let zipCode: string = '';
+  let cityState: string = '';
+
+  useEffect(() => {
+    //formSubmit(event);
+    console.log('useEffect')
+  }, [form])
 
   const onChangeSelect = (value: string) => {
     setStatus(value);
@@ -36,16 +44,27 @@ function FieldsSection() {
     switch (e.target.id) {
       case 'zipOrigin':
         setZipOrigin(e.target.value);
+        //if (e.target.value.length === 5) {
+          zipCode = e.target.value
+          fetchZipCode();
+          console.log('onChange', cityState);
+          //setCityOrigin(cityState);
+          //console.log(cityState); 
+        //}
       break;
+
       case 'cityOrigin':
         setCityOrigin(e.target.value);
       break;
+
       case 'zipDestination':
         setZipDestination(e.target.value);
       break;
+
       case 'cityDestination':
         setCityDestination(e.target.value);
       break;
+
       case 'tripMiles':
         setTripMiles(Number(e.target.value));
         console.log(e.target.value);
@@ -77,9 +96,35 @@ function FieldsSection() {
     formSubmit();
   } 
 
+  const onFocusOriginCity =(e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(cityOrigin)
+    console.log(e.target.id)
+    e.target.value = cityOrigin;
+    return e.target.value;
+  }
+  
+  async function fetchZipCode () {
+    try {
+      const result = await fetch(`http://localhost:5001/trips/zipCode/${zipCode}`);
+      const data =   await result.json(); 
+      setZipCodeData(data);
+      console.log('data', data);
+      Object.keys(data).forEach(function(key) {
+        let row = data[key];
+        cityState = row.city + ', ' + row.state_id; 
+        setCityOrigin(cityState);
+        //console.log(row.city, row.state_id)
+        console.log('fetch', cityOrigin);
+      });
+      return data;
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
   async function formSubmit(){
     try {
-      //console.log('forSubmit')
       const results = await fetch("http://localhost:5001/trips/", {
         method: "POST",
         headers: {
@@ -89,19 +134,21 @@ function FieldsSection() {
       });
       console.log(results);
       const data = await results.json();
-      console.log(data);
-
+      //e.preventDefault();
     } catch(error){
       console.log(error);
     }
   }
   
-  useEffect(() => {
-    formSubmit();
-  }, [form])
+  // const handleSubmit = (event: React.ChangeEvent) => {
+  //   // 👇️ prevent page refresh
+  //   event.preventDefault();
+
+  //   console.log('form submitted ✅');
+  // };
 
   return(
-    <Form id="tripsData-form"
+    <Form id="tripsData-form"  
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 14 }}
       layout="horizontal"
@@ -113,7 +160,7 @@ function FieldsSection() {
       </Form.Item>
       
       <Form.Item label="Origin City"> 
-        <Input id="cityOrigin" placeholder="Zip Code Origin" allowClear onChange={onChange} />
+        <Input id="cityOrigin" placeholder="Zip Code Origin" allowClear onChange={onChange} onFocus = {onFocusOriginCity} />
       </Form.Item> 
 
       <Form.Item label="To Zip Code">
@@ -125,11 +172,11 @@ function FieldsSection() {
       </Form.Item>
 
       <Form.Item label="Miles"> 
-        <Input id="tripMiles" placeholder="Miles" allowClear onChange={onChange}/>
+        <Input id="tripMiles" placeholder="Miles" allowClear onChange={onChange} />
       </Form.Item>
 
       <Form.Item label="DatePicker">
-        <DatePicker id="date" defaultValue={moment()} onChange = {onChangeDate}  />
+        <DatePicker id="date" onChange = {onChangeDate} />
       </Form.Item>
 
       <Form.Item label="Status">
@@ -140,9 +187,6 @@ function FieldsSection() {
           optionFilterProp="children"
           onChange={onChangeSelect}
           onSearch={onSearch}
-          // filterOption={(input, option) =>
-          //   (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-          // }
         >
           <Select.Option value="Loaded">Loaded</Select.Option>
           <Select.Option value="Empty">Empty</Select.Option>
@@ -154,3 +198,23 @@ function FieldsSection() {
 }
 
 export default FieldsSection;
+
+
+
+
+// const fetchZipCode_ORIGINAL = () =>
+//     fetch(`http://localhost:5001/trips/zipCode/${zipCode}`)
+//     .then(response => {
+//       return response.json();
+//     })
+//     .then(data => {
+//       setZipCodeData(data);
+//       //console.log(data);
+//       Object.keys(data).forEach(function(key) {
+//         let row = data[key];
+//         cityState = row.city + ', ' + row.state_id; 
+//         setCityOrigin(cityState);
+//         //console.log(row.city, row.state_id)
+//         console.log('fetch', cityOrigin);
+//       })
+//     });
