@@ -64,11 +64,17 @@ const columns: ColumnsType<DataType> = [
     key: 'date',
   
   },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (_, record) => (
+      <Space size="middle">
+        <a>Update</a>
+        <a>Delete</a>
+      </Space>
+    ),
+  },
 ];
-
-// const onOk = (value: DatePickerProps['value'] | RangePickerProps['value']) => {
-//   console.log('onOk: ', value);
-// };
 
 function TableSection () {
   
@@ -90,7 +96,6 @@ function TableSection () {
         let row = data[key];
         totalMilesAcum = totalMilesAcum + row.tripMiles;
         totalEarningAcum = totalEarningAcum + (row.tripMiles * row.rate)
-        console.log('total miles', row.tripMiles, row.rate);
       });  
       setTotalMiles(totalMilesAcum);
       setTotalEarnings(totalEarningAcum);
@@ -99,7 +104,7 @@ function TableSection () {
     })
   
   useEffect(() => {
-    console.log("useEffect ********")
+    //console.log("useEffect ********")
     fetchData();
   }, [])
   
