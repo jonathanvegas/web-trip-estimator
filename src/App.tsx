@@ -37,7 +37,7 @@ function App() {
       <div className="site-layout-content">
       <h3>New Trip</h3>
         <FieldsSection setRefreshData={setRefreshData}/>
-        <TableSection refreshData={refreshData}/>
+        <TableSection refreshData={refreshData} />
       </div>
       </Content>
       <Footer

@@ -5,6 +5,7 @@ import moment from 'moment';
 import type { ColumnsType } from 'antd/es/table';
 import type { RangePickerProps } from 'antd/es/date-picker';
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import EditModal from "./EditModal";
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -27,65 +28,6 @@ interface DataType {
   date: string ;
   rate: number;
 }
-
-// const columns: ColumnsType<DataType> = [
-//   {
-//     title: 'Zip Code Origin',
-//     dataIndex: 'zipOrigin',
-//     key: 'zipOrigin',
-//   },
-//   {
-//     title: 'Origin City',
-//     dataIndex: 'cityOrigin',
-//     key: 'cityOrigin',
-//   },
-//   {
-//     title: 'Zip Code Destination',
-//     dataIndex: 'zipDestination',
-//     key: 'zipDestination',
-//   },
-//   {
-//     title: 'Destination City',
-//     dataIndex: 'cityDestination',
-//     key: 'cityDestination',
-//   },
-//   {
-//     title: 'Miles',
-//     dataIndex: 'tripMiles',
-//     key: 'tripMiles',
-//   },
-//   {
-//     title: 'Status',
-//     dataIndex: 'status',
-//     key: 'status',
-//   },
-//   {
-//     title: 'Date',
-//     dataIndex: 'dateFormat',
-//     key: 'dateFormat',
-  
-//   },
-//   {
-//     key: "action",
-//     title: "Actions",
-//     render: (record) => {
-//       return (
-//         <>
-//           <div className="actions">
-//             <EditOutlined
-//               style={{ color: "black" }}
-//               onClick={() => console.log("Edit(record)")}
-//             />
-//             <DeleteOutlined
-//               style={{ color: "red" }}
-//               onClick={() => console.log(Delete(record))}
-//             />
-//           </div>
-//         </>
-//       );
-//     },
-//   }
-// ];
 interface TableSectionProp {
   refreshData: boolean
 }
@@ -96,9 +38,12 @@ function TableSection ({refreshData}:TableSectionProp) {
   const [dataTable, setDataTable] = useState([]);
   const [totalMiles, setTotalMiles] = useState(0);
   const [totalEarnings, setTotalEarnings] = useState(0);
+
+  const [visible, setVisible] = useState(false);
+  const [edit, setEdit] = useState([]);
+
   let totalMilesAcum: number = 0;
   let totalEarningAcum: number = 0;
-  const [Data, setData] = useState(dataTable);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -146,11 +91,11 @@ function TableSection ({refreshData}:TableSectionProp) {
             <div className="actions">
               <EditOutlined
                 style={{ color: "#1990ff" }}
-                onClick={() => console.log("Edit(record)")}
+                onClick={() => editTrip(record)}
               />
               <DeleteOutlined
                 style={{ color: "red" }}
-                onClick={() => Delete(record)}
+                onClick={() => deleteTrip(record)}
               />
             </div>
           </>
@@ -159,12 +104,42 @@ function TableSection ({refreshData}:TableSectionProp) {
     }
   ];
 
-  const Delete = (record:DataType) => {
-    console.log(record.trips_id)
+  const editTrip = (record:[]) => {
+    setVisible(true);
+    setEdit(record);
+  };
+
+  const resetEditing = () => {
+    setVisible(false);
+    setEdit([]);
+  };
+
+  const updateTrips = (record:DataType) => {
+    fetch(`http://localhost:5001/trips/update/${record.trips_id}`, {
+      method: "PATCH",
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(edit)
+    })
+    .then(res => {
+      if (res.ok) { console.log("Update successful") }
+      else { console.log("Update unsuccessful") }
+      return res;
+    })
+    .then(res => res.json())
+    .then(function(data){
+      console.log(data);
+      fetchData();
+    })
+    .catch(error => console.log(error));
+  };
+
+  const deleteTrip = (record:DataType) => {
+    console.log(record);
     Modal.confirm({
-      title: "Are you sure you want to delete this",
-      onOk: () => {
-        
+      title: "Are you sure you want to delete this entry",
+      onOk: () => {   
         fetch(`http://localhost:5001/trips/delete/${record.trips_id}`, {
           method: "DELETE",
           headers: {
@@ -174,12 +149,12 @@ function TableSection ({refreshData}:TableSectionProp) {
         .then(res => {
           if (res.ok) { console.log("Delete successful") }
           else { console.log("Delete unsuccessful") }
-          return res
+          return res;
         })
         .then(res => res.json())
         .then(function(data){
-          console.log(data)
-          fetchData()
+          console.log(data);
+          fetchData();
         })
         .catch(error => console.log(error))
       },
@@ -205,8 +180,8 @@ function TableSection ({refreshData}:TableSectionProp) {
     })
   
   useEffect(() => {
-    fetchData();
-      
+    console.log('useEffect.....')
+    fetchData();      
   }, [refreshData])
   
   const onChange: RangePickerProps['onChange'] = (dates, dateStrings) => {
@@ -235,7 +210,6 @@ function TableSection ({refreshData}:TableSectionProp) {
         <RangePicker onChange={onChange} />
       </Space>
       <Table columns={columns} dataSource={dataTable} />
-
       <h3>Total Miles: {totalMiles} </h3>
       <h3>Total Earnings: {
         totalEarnings.toLocaleString("en-US", 
@@ -244,6 +218,14 @@ function TableSection ({refreshData}:TableSectionProp) {
           currency: "USD"
         })
       } </h3>
+      <EditModal
+            visible={visible}
+            setVisible={setVisible}
+            edit={edit}
+            setEdit={setEdit}
+            updateTrips={updateTrips}
+            resetEditing={resetEditing}
+          />
     </>
   )
 }

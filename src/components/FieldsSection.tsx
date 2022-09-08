@@ -155,7 +155,7 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
         </Form.Item>
         
         <Form.Item label="Origin City" name="cityOrigin"> 
-          <Input placeholder="Origin City" allowClear required />
+          <Input style={{width:500}} placeholder="Origin City" allowClear required />
         </Form.Item> 
       </Space>
 
