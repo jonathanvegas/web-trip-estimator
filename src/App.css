@@ -1,8 +1,8 @@
 @import "antd/dist/antd.css";
 
-/* .ant-btn-primary {
-  background-color: red;
-} */
+.ant-layout-header{
+  background: #fff !important;
+}
 
 .site-layout-content {
   min-height: 280px;
@@ -20,4 +20,25 @@
 .ant-row-rtl #components-layout-demo-top .logo {
   float: right;
   margin: 16px 0 16px 24px;
+}
+
+#sectionFields{
+  border: solid #ebebeb;
+}
+
+.userInfo {
+  display:flex;
+  position: relative;
+  top: 1px;
+  border: 0.8rem solid #f0f2f6;
+  background-color: #f0f2f6;
+}
+
+.userInfo h3{
+  color: #585858
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
 }

@@ -1,17 +1,18 @@
+import { useState } from 'react';
 import { Layout, Menu } from 'antd';
-import React from 'react';
 import './App.css';
 import FieldsSection from './components/FieldsSection';
-//import Footer from './components/Footer';
-import Menubar from './components/Menubar';
 import TableSection from './components/TableSection';
+import logoUser from "./images/icons8-user-24.png"
 
 const { Header, Content, Footer } = Layout;
 
 function App() {
+  const [refreshData, setRefreshData] = useState(true);
   return (
     <Layout className='layout' >
       <Header>
+      {/* <div className="logo" /> */}
         <Menu
           theme="light"
           mode="horizontal"
@@ -29,10 +30,14 @@ function App() {
           padding: '0 50px',
         }}
       > 
+      <div className="userInfo"> 
+        <img height={24} width={24} src={logoUser} />
+        <h3>Welcome, Username</h3>
+      </div>
       <div className="site-layout-content">
       <h3>New Trip</h3>
-        <FieldsSection />
-        <TableSection />
+        <FieldsSection setRefreshData={setRefreshData}/>
+        <TableSection refreshData={refreshData}/>
       </div>
       </Content>
       <Footer
