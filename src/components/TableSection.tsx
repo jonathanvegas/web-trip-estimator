@@ -115,7 +115,7 @@ function TableSection ({refreshData}:TableSectionProp) {
   };
 
   const updateTrips = (record:DataType) => {
-    fetch(`http://localhost:5001/trips/update/${record.trips_id}`, {
+    fetch(`${process.env.REACT_APP_API_ENDPOINT}update/${record.trips_id}`, {
       method: "PATCH",
       headers: {
         'Content-type': 'application/json'
@@ -140,7 +140,7 @@ function TableSection ({refreshData}:TableSectionProp) {
     Modal.confirm({
       title: "Are you sure you want to delete this entry",
       onOk: () => {   
-        fetch(`http://localhost:5001/trips/delete/${record.trips_id}`, {
+        fetch(`${process.env.REACT_APP_API_ENDPOINT}delete/${record.trips_id}`, {
           method: "DELETE",
           headers: {
             'Content-type': 'application/json'
@@ -162,7 +162,7 @@ function TableSection ({refreshData}:TableSectionProp) {
   };
 
   const fetchData = () =>
-    fetch(`http://localhost:5001/trips/${user_id}/${startDateWeek}/${endDateWeek}`)
+    fetch(`${process.env.REACT_APP_API_ENDPOINT}${user_id}/${startDateWeek}/${endDateWeek}`)
     .then(response => {
       return response.json();
     })
@@ -180,7 +180,6 @@ function TableSection ({refreshData}:TableSectionProp) {
     })
   
   useEffect(() => {
-    console.log('useEffect.....')
     fetchData();      
   }, [refreshData])
   
@@ -214,7 +213,7 @@ function TableSection ({refreshData}:TableSectionProp) {
       <h3>Total Earnings: {
         totalEarnings.toLocaleString("en-US", 
         {
-          style: "currency",
+          style: "currency", 
           currency: "USD"
         })
       } </h3>

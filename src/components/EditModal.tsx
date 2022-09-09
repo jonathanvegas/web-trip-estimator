@@ -1,5 +1,6 @@
 import React from 'react';
-import { Input, Modal } from "antd";
+import { Input, Modal, DatePicker } from "antd";
+import moment from 'moment';
 
 interface DataType {
   trips_id: number;
@@ -8,8 +9,8 @@ interface DataType {
   zipDestination: string;
   cityDestination: string;
   tripMiles: number;
-  status: string ;
-  date: string ;
+  status: string;
+  date: string;
   rate: number;
 }
 
@@ -23,8 +24,6 @@ interface EditModalProp {
 }
 
 const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrips}: EditModalProp) => {
-  //console.log(edit)
-
   return (
     <>
       <Modal

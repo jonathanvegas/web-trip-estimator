@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Form, Input, Button, DatePicker, Select, Space, Popconfirm } from 'antd';
+import { Form, Input, Button, DatePicker, Select, Space, Popconfirm, Divider, Row, Col } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import moment from "moment";
 import "antd/dist/antd.css"
@@ -31,7 +31,7 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
 
   async function fetchZipCode () {
     try {
-      const result = await fetch(`http://localhost:5001/trips/zipCode/${zipCode}`);
+      const result = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/zipCode/${zipCode}`);
       const data =   await result.json(); 
   
       Object.keys(data).forEach(function(key) {
@@ -77,7 +77,7 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
         rate: rate
       }
     console.log(rate)
-    fetch("http://localhost:5001/trips/", {
+    fetch(`${process.env.REACT_APP_API_ENDPOINT}`, {
         method: "POST",
         headers: {
           "Content-Type":"application/json"
@@ -125,11 +125,11 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
     }
   }
 
-  // const confirm = () =>
-  //   new Promise(resolve => {
-  //     setTimeout(() => resolve(null), 1500);
+  const confirm = () =>
+    new Promise(resolve => {
+      setTimeout(() => resolve(null), 1500);
       
-  //   });
+    });
   
   // const confirmCancel = () =>
   //   new Promise(resolve => {
@@ -150,17 +150,17 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
        >
       <div id="sectionFields">
       <Space>
-        <Form.Item label="From Zip Code" name="zipOrigin">
+        <Form.Item label="Zip Code (FROM)" name="zipOrigin">
             <Input placeholder="Zip Code" allowClear onChange={onChangeZipOrigin} required/>
         </Form.Item>
         
         <Form.Item label="Origin City" name="cityOrigin"> 
-          <Input style={{width:500}} placeholder="Origin City" allowClear required />
+          <Input placeholder="Origin City" allowClear required />
         </Form.Item> 
       </Space>
 
       <Space>
-        <Form.Item label="To Zip Code" name="zipDestination">
+        <Form.Item label="Zip Code (TO)" name="zipDestination">
             <Input placeholder="Zip Code" allowClear onChange={onChangeZipDestination} required/>
         </Form.Item>
         
@@ -179,14 +179,14 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
         </Form.Item>
 
         <Form.Item label="Date" name="date">
-          <DatePicker defaultValue={moment(new(Date), 'MM-DD-YYYY')} />
-        </Form.Item>
+          <DatePicker />
+        </Form.Item>   
 
         <Form.Item label="Status" name="status">
           <Select
             showSearch
             placeholder="Select a status"
-            optionFilterProp="children" 
+            optionFilterProp="children"
           >
             <Select.Option value="Loaded">Loaded</Select.Option>
             <Select.Option value="Empty">Empty</Select.Option>
