@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Modal, DatePicker } from "antd";
+import { Input, Modal, DatePicker, Select, Space } from "antd";
 import moment from 'moment';
 
 interface DataType {
@@ -30,12 +30,15 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
         title="Edit Trip Details"
         visible={visible}
         okText="Save"
+        width={700}
         onCancel={() => resetEditing()}
         onOk={() => {
           updateTrips(edit);
           resetEditing();
         }}
       >
+        <Space>
+        <h5>Zip Code (FROM)</h5>
         <Input
           value={edit?.zipOrigin}
           onChange={(e) => {
@@ -44,6 +47,7 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        <h5>City Origin</h5>
         <Input
           value={edit?.cityOrigin}
           onChange={(e) => {
@@ -52,6 +56,9 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        </Space>
+        <Space>
+        <h5>Zip Code (TO)</h5>
         <Input
           value={edit?.zipDestination}
           onChange={(e) => {
@@ -60,6 +67,7 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        <h5>City Destination</h5>
         <Input
           value={edit?.cityDestination}
           onChange={(e) => {
@@ -68,6 +76,9 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        </Space>
+        <Space>
+        <h5>Miles</h5>
         <Input
           value={edit?.tripMiles}
           onChange={(e) => {
@@ -76,6 +87,7 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        <h5>Rate</h5>
         <Input
           value={edit?.rate}
           onChange={(e) => {
@@ -84,6 +96,11 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        </Space>
+        {/* <DatePicker
+        /> */}
+        <Space>
+        <h5>Date</h5>
         <Input
           value={edit?.date}
           onChange={(e) => {
@@ -92,7 +109,22 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
-        <Input
+        <h5>Status</h5>
+        {/* <Select
+            defaultValue={edit?.status}
+            showSearch
+            // placeholder="Select a status"
+            optionFilterProp="children"
+            onChange={(e) => {
+              setEdit((pre: DataType) => {
+                return { ...pre, status: e.target.value };
+              });
+            }}
+          >
+            <Select.Option value="Loaded">Loaded</Select.Option>
+            <Select.Option value="Empty">Empty</Select.Option>
+          </Select> */}
+        <Input 
           value={edit?.status}
           onChange={(e) => {
             setEdit((pre: DataType) => {
@@ -100,6 +132,7 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        </Space>
       </Modal>
     </>
   );

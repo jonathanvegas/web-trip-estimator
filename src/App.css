@@ -24,6 +24,7 @@
 
 #sectionFields{
   border: solid #ebebeb;
+  padding: 1em;
 }
 
 .userInfo {
@@ -41,4 +42,14 @@
 .actions {
   display: flex;
   justify-content: space-around;
+}
+
+.ant-space-vertical{
+ margin-bottom: 1em;
+}
+
+.ant-modal-body{
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
 }
