@@ -1,7 +1,5 @@
 import React, {useState} from "react";
 import { Form, Input, Button, DatePicker, Select, Space, Popconfirm, Divider, Row, Col } from 'antd';
-import type { FormInstance } from 'antd/es/form';
-import moment from "moment";
 import "antd/dist/antd.css"
 
 interface formType {
@@ -127,11 +125,6 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
       formChange.setFieldsValue({cityDestination: ''});
     }
   }
-
-  // const confirm = () =>
-  //   new Promise(resolve => {
-  //     setTimeout(() => resolve(null), 500);
-  //   });
   
   const confirmCancel = () =>
     new Promise(resolve => {
@@ -160,16 +153,16 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
             },
           ]}
         >
-            <Input placeholder="Zip Code" allowClear onChange={onChangeZipOrigin} />
+          <Input placeholder="Zip Code" allowClear onChange={onChangeZipOrigin} />
         </Form.Item>
         
         <Form.Item label="Origin City" name="cityOrigin" style={{ width: 600 }}
-        rules={[
-          {
-            required: true,
-            message: 'Please input the origin city',
-          },
-        ]}
+          rules={[
+            {
+              required: true,
+              message: 'Please input the origin city',
+            },
+          ]}
         > 
           <Input placeholder="Origin City" allowClear />
         </Form.Item> 
@@ -177,23 +170,23 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
 
       <Space>
         <Form.Item label="Zip Code (TO)" name="zipDestination" 
-        rules={[
-          {
-            required: true,
-            message: 'Please input the Zip code',
-          },
-        ]}
+          rules={[
+            {
+              required: true,
+              message: 'Please input the Zip code',
+            },
+          ]}
         >
             <Input placeholder="Zip Code" allowClear onChange={onChangeZipDestination} />
         </Form.Item>
         
         <Form.Item label="Destination City" name="cityDestination" style={{ width: 600 }}
-        rules={[
-          {
-            required: true,
-            message: 'Please input the destination city',
-          },
-        ]}
+          rules={[
+            {
+              required: true,
+              message: 'Please input the destination city',
+            },
+          ]}
         > 
           <Input  placeholder="City Destination" allowClear />
         </Form.Item>
@@ -201,17 +194,24 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
     
       <Space> 
         <Form.Item label="Miles" name="tripMiles"
-        rules={[
-          {
-            required: true,
-            message: 'Please input the miles',
-          },
-        ]}
+          rules={[
+            {
+              required: true,
+              message: 'Please input the miles',
+            },
+          ]}
         > 
           <Input placeholder="Miles" allowClear />
         </Form.Item>
 
-        <Form.Item label="Rate per Miles ($)" name="rate"> 
+        <Form.Item label="Rate per Miles ($)" name="rate"
+          rules={[
+            {
+              required: true,
+              message: 'Please input the miles',
+            },
+          ]}
+        > 
           <Input placeholder="Rate per Miles" allowClear />
         </Form.Item>
 
@@ -227,12 +227,12 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
         </Form.Item>   
 
         <Form.Item label="Status" name="status" style={{ width: 300 }}
-        rules={[
-          {
-            required: true,
-            message: 'Please select a status',
-          },
-        ]}
+          rules={[
+            {
+              required: true,
+              message: 'Please select a status',
+            },
+          ]}
         >
           <Select
             showSearch
@@ -249,9 +249,7 @@ function FieldsSection({setRefreshData}:{setRefreshData:Function}) {
         <Popconfirm title="Are you sure?" onConfirm={confirmCancel} > 
           <Button type="primary" htmlType="reset">Cancel</Button>
         </Popconfirm>
-        {/* <Popconfirm title="Are you sure?" onConfirm={confirm} > */}
-          <Button type="primary" htmlType="submit">Submit</Button>
-        {/* </Popconfirm> */}
+        <Button type="primary" htmlType="submit">Submit</Button>
       </Space>
     </Form>
   )

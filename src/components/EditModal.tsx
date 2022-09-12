@@ -24,20 +24,21 @@ interface EditModalProp {
 }
 
 const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrips}: EditModalProp) => {
+  
   return (
     <>
       <Modal
         title="Edit Trip Details"
         visible={visible}
         okText="Save"
-        width={700}
+        width={625}
         onCancel={() => resetEditing()}
         onOk={() => {
           updateTrips(edit);
           resetEditing();
         }}
       >
-        <Space>
+        <Space style={{display:"flex",gap:10}} >
         <h5>Zip Code (FROM)</h5>
         <Input
           value={edit?.zipOrigin}
@@ -47,6 +48,8 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        </Space>
+        <Space style={{display:"flex",gap:37}}>
         <h5>City Origin</h5>
         <Input
           value={edit?.cityOrigin}
@@ -57,7 +60,7 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
           }}
         />
         </Space>
-        <Space>
+        <Space style={{display:"flex",gap:26}}>
         <h5>Zip Code (TO)</h5>
         <Input
           value={edit?.zipDestination}
@@ -67,6 +70,8 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        </Space>
+        <Space style={{display:"flex",gap:10}}>
         <h5>City Destination</h5>
         <Input
           value={edit?.cityDestination}
@@ -77,9 +82,9 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
           }}
         />
         </Space>
-        <Space>
+        <Space style={{display:"flex",gap:75}}>
         <h5>Miles</h5>
-        <Input
+        <Input 
           value={edit?.tripMiles}
           onChange={(e) => {
             setEdit((pre: DataType) => {
@@ -87,6 +92,8 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        </Space>
+        <Space style={{display:"flex",gap:73}}>
         <h5>Rate</h5>
         <Input
           value={edit?.rate}
@@ -99,9 +106,10 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
         </Space>
         {/* <DatePicker
         /> */}
-        <Space>
+        <Space style={{display:"flex",gap:76}}>
         <h5>Date</h5>
         <Input
+          // value={handleDate(edit?.date)}
           value={edit?.date}
           onChange={(e) => {
             setEdit((pre: DataType) => {
@@ -109,21 +117,9 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
             });
           }}
         />
+        </Space>
+        <Space style={{display:"flex",gap:63}}>
         <h5>Status</h5>
-        {/* <Select
-            defaultValue={edit?.status}
-            showSearch
-            // placeholder="Select a status"
-            optionFilterProp="children"
-            onChange={(e) => {
-              setEdit((pre: DataType) => {
-                return { ...pre, status: e.target.value };
-              });
-            }}
-          >
-            <Select.Option value="Loaded">Loaded</Select.Option>
-            <Select.Option value="Empty">Empty</Select.Option>
-          </Select> */}
         <Input 
           value={edit?.status}
           onChange={(e) => {
@@ -139,3 +135,23 @@ const EditModal= ({ visible, setVisible, edit, setEdit, resetEditing, updateTrip
 };
 
 export default EditModal;
+
+{/* <Select
+            defaultValue={edit?.status}
+            showSearch
+            // placeholder="Select a status"
+            optionFilterProp="children"
+            onChange={(e) => {
+              setEdit((pre: DataType) => {
+                return { ...pre, status: e.target.value };
+              });
+            }}
+          >
+            <Select.Option value="Loaded">Loaded</Select.Option>
+            <Select.Option value="Empty">Empty</Select.Option>
+          </Select> */}
+
+          // function handleDate(strDate:string){
+  //   console.log(strDate)
+  //   return strDate.split('T')[0];
+  // }

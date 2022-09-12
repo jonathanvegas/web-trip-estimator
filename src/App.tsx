@@ -21,8 +21,8 @@ function App() {
         >
           <Menu.Item key="1" >Home</Menu.Item>
           <Menu.Item key="2" >About</Menu.Item>
-          <Menu.Item key="3">Login</Menu.Item>
-          <Menu.Item key="4">Sign Up</Menu.Item>
+          {/* <Menu.Item key="3">Login</Menu.Item>
+          <Menu.Item key="4">Sign Up</Menu.Item> */}
         </Menu>
       </Header>
       <Content
@@ -32,7 +32,7 @@ function App() {
       > 
       <div className="userInfo"> 
         <img height={24} width={24} src={logoUser} />
-        <h3>Welcome, Username</h3>
+        <h3>Welcome</h3>
       </div>
       <div className="site-layout-content">
       <h3>New Trip</h3>
@@ -45,7 +45,7 @@ function App() {
           textAlign: 'center',
         }}
       >
-        Trucker Earning Estimator ©2022 Created by Jonathan Vegas
+        Trucker Trips Estimator ©2022 Created by Jonathan Vegas
       </Footer>
     </Layout>
   );
